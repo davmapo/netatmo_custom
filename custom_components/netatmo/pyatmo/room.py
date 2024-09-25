@@ -87,22 +87,37 @@ class Room(NetatmoBase):
             self.features.add("humidity")
         elif "BNTH" in self.device_types:
             self.climate_type = DeviceType.BNTH
+            self.features.add("humidity")
 
     def update(self, raw_data: RawData) -> None:
         """Update room data."""
 
         self.heating_power_request = raw_data.get("heating_power_request")
-        self.humidity = raw_data.get("humidity")
+        self.humidity = raw_data.get("humidity") #doesn't work for BNTH!!!
+        
         if self.climate_type == DeviceType.BNTH:
-            # BNTH is wired, so the room is always reachable
+            # BNTH is wired
             self.reachable = True
         else:
             self.reachable = raw_data.get("reachable")
+
         self.therm_measured_temperature = raw_data.get("therm_measured_temperature")
-        self.therm_setpoint_mode = raw_data.get("therm_setpoint_mode")
+        
+        self.therm_setpoint_mode = raw_data.get("therm_setpoint_mode")            
+        if self.therm_setpoint_mode == '' or self.therm_setpoint_mode is None:
+            self.therm_setpoint_mode = raw_data.get("cooling_setpoint_mode")
+        
         self.therm_setpoint_temperature = raw_data.get("therm_setpoint_temperature")
+        if self.therm_setpoint_temperature == '' or self.therm_setpoint_temperature is None:
+            self.therm_setpoint_temperature = raw_data.get("cooling_setpoint_temperature")
+        
         self.therm_setpoint_start_time = raw_data.get("therm_setpoint_start_time")
+        if self.therm_setpoint_start_time == '' or self.therm_setpoint_start_time is None:
+            self.therm_setpoint_start_time = raw_data.get("cooling_setpoint_start_time")
+
         self.therm_setpoint_end_time = raw_data.get("therm_setpoint_end_time")
+        if self.therm_setpoint_end_time == '' or self.therm_setpoint_end_time is None:
+            self.therm_setpoint_end_time = raw_data.get("cooling_setpoint_end_time")
 
     async def async_therm_manual(
         self,

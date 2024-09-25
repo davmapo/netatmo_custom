@@ -119,7 +119,7 @@ DEFAULT_MAX_TEMP = 30
 
 NA_THERM = DeviceType.NATherm1
 NA_VALVE = DeviceType.NRV
-
+NA_BNTH = DeviceType.BNTH
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
@@ -219,8 +219,10 @@ class NetatmoThermostat(NetatmoRoomEntity, ClimateEntity):
         self._selected_schedule = None
 
         self._attr_hvac_modes = [HVACMode.AUTO, HVACMode.HEAT]
-        if self.device_type is NA_THERM:
+        if self.device_type is NA_THERM or self.device_type is NA_BNTH:
             self._attr_hvac_modes.append(HVACMode.OFF)
+        if self.device_type is NA_BNTH:
+            self._attr_hvac_modes.append(HVACMode.COOL)
 
         self._attr_unique_id = f"{self.device.entity_id}-{self.device_type}"
 
