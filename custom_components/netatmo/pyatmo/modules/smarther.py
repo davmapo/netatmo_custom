@@ -4,16 +4,10 @@ from __future__ import annotations
 
 import logging
 
-from ..modules.module import (
-    BoilerMixin,
-    CoolerMixin,
-    FirmwareMixin,
-    Module,
-    WifiMixin,
-)
+from ..modules.module import BoilerMixin, FirmwareMixin, Module, WifiMixin
 
 LOG = logging.getLogger(__name__)
 
 
-class BNS(FirmwareMixin, BoilerMixin, CoolerMixin, WifiMixin, Module):
+class BNS(FirmwareMixin, BoilerMixin, WifiMixin, Module):
     """Smarther thermostat."""

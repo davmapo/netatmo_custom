@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Any, cast
+from typing import Any, cast
 
+from .const import RawData
 from .exceptions import NoDevice
-
-if TYPE_CHECKING:
-    from .const import RawData
 
 LOG: logging.Logger = logging.getLogger(__name__)
 
@@ -42,8 +40,7 @@ def extract_raw_data(resp: Any, tag: str) -> dict[str, Any]:
 
     if resp is None or "body" not in resp or tag not in resp["body"]:
         LOG.debug("Server response (tag: %s): %s", tag, resp)
-        msg = "No device found, errors in response"
-        raise NoDevice(msg)
+        raise NoDevice("No device found, errors in response")
 
     if tag == "homes":
         return {
@@ -53,7 +50,6 @@ def extract_raw_data(resp: Any, tag: str) -> dict[str, Any]:
 
     if not (raw_data := fix_id(resp["body"].get(tag))):
         LOG.debug("Server response (tag: %s): %s", tag, resp)
-        msg = "No device data available"
-        raise NoDevice(msg)
+        raise NoDevice("No device data available")
 
     return {tag: raw_data, "errors": resp["body"].get("errors", [])}

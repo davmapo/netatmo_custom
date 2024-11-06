@@ -81,20 +81,13 @@ ALL_SCOPES: list[str] = [
     "write_thermostat",  # Netatmo climate products
 ]
 
-EVENTS = "events"
-SCHEDULES = "schedules"
-
 MANUAL = "manual"
 MAX = "max"
 HOME = "home"
 FROSTGUARD = "hg"
-SCHEDULE = "schedule"
-OFF = "off"
-AWAY = "away"
+SCHEDULES = "schedules"
+EVENTS = "events"
 
-HEATING = "heating"
-COOLING = "cooling"
-IDLE = "idle"
 
 STATION_TEMPERATURE_TYPE = "temperature"
 STATION_PRESSURE_TYPE = "pressure"
@@ -112,5 +105,3 @@ ACCESSORY_GUST_ANGLE_TYPE = "gust_angle"
 
 # 2 days of dynamic historical data stored
 MAX_HISTORY_TIME_FRAME = 24 * 2 * 3600
-
-UNKNOWN = "unknown"
